@@ -1,7 +1,7 @@
 <template>
   <div>
   <img src="./logo.png">
-  <h1>Hello Vue 3!</h1>
+  <h1 :style="style">Hello Vue 3!</h1>
   <button @click="inc">Clicked {{ count }} times.</button>
   </div>
 </template>
@@ -12,13 +12,20 @@ import { ref } from 'vue'
 export default {
   setup() {
     const count = ref(0)
+    const style = ref('font-size: 30px; background-color: red')
     const inc = () => {
       count.value++
+      if(style.value.includes('red')) {
+        style.value = 'font-size: 30px; background-color: green'
+      } else {
+        style.value = 'font-size: 30px; background-color: red'
+      }
     }
 
     return {
       count,
-      inc
+      inc,
+      style
     }
   }
 }

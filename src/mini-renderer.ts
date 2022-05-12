@@ -3,7 +3,7 @@ import {
   h,
 } from '@vue/runtime-dom'
 
-const { createApp } = createRenderer({
+const render = createRenderer({
   forcePatchProp(el, key){
     console.log('forcePatchProp')
     return false
@@ -19,6 +19,7 @@ const { createApp } = createRenderer({
     parentSuspense,
     unmountChildren
   ){
+    debugger;
     console.log('key')
     console.log(key)
     console.log('nextValue')
@@ -81,14 +82,20 @@ const { createApp } = createRenderer({
   }
 })
 
-const el = document.createElement('div')
-el.id = 'app'
-document.body.appendChild(el)
+const createApp = (...args) => {
+  debugger;
+  const app = render.createApp(...args)
+  const { mount } = app
+  app.mount = (el) => {
+    debugger;
+    if(typeof el === 'string') {
+      el = document.querySelector(el)
+    }
 
-const App = {
-  render() {
-    return h('div', 'ok')
+    const container = mount(el)
+    return container
   }
+  return app
 }
 
 export {
